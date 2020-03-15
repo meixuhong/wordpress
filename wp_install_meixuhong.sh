@@ -388,6 +388,7 @@ start_menu(){
     green "=================================================="
     green "1. 安装wordpress"
     red "2. 卸载wordpress"
+	green "3. 安装BBRPlus4合一加速"
     yellow "0. 退出脚本"
     echo
     read -p "请输入数字:" num
@@ -399,6 +400,9 @@ start_menu(){
 		;;
 		2)
 		uninstall_wp
+		;;
+		3)
+		bbr_boost_sh
 		;;
 		0)
 		exit 1
