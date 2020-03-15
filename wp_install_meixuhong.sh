@@ -280,11 +280,26 @@ server {
 }
 EOF
 
+cat > /etc/init.d/nginx <<-EOF
+#!/bin/sh
+#chkconfig: 2345 80 90
+#description:auto_run
+
+nginx="/etc/nginx/sbin/nginx"
+NGINX_CONF_FILE="/etc/nginx/conf/nginx.conf"
+EOF
+
     newpath=$(cat /dev/urandom | head -1 | md5sum | head -c 4)
     sed -i "s/mypath/$newpath/;" /etc/nginx/conf.d/default.conf
     /etc/nginx/sbin/nginx -s stop
     /etc/nginx/sbin/nginx 
-
+	
+    green " 设置Ngnix开机自动启动"
+    chmod a+x /etc/init.d/nginx
+    chkconfig --add /etc/init.d/nginx
+    chkconfig nginx on
+    green " 成功设置Ngnix开机自动启动了!"
+    green "==========================================================="
 }
 
 config_php(){
@@ -351,23 +366,6 @@ install_wp(){
     echo "define('FS_METHOD', "direct");" >> /usr/share/nginx/html/wp-config.php
     chmod -R 777 /usr/share/nginx/html/wp-content
     green "==========================================================="
-    green " 设置Ngnix开机自动启动"
-cat > /etc/init.d/nginx <<-EOF
-#!/bin/sh
-#chkconfig: 2345 80 90
-#description:auto_run
-
-nginx="/etc/nginx/sbin/nginx"
-NGINX_CONF_FILE="/etc/nginx/conf/nginx.conf"
-EOF
-
-        chmod a+x /etc/init.d/nginx
-        chkconfig --add /etc/init.d/nginx
-
-        chkconfig nginx on
-    green " 成功设置Ngnix开机自动启动了!"
-    green "==========================================================="
-
     green "==========================================================="
     green " WordPress服务端配置已完成，请打开浏览器访问您的域名进行前台配置"
     green " 数据库密码等信息参考文件：/usr/share/nginx/html/wp-config.php"
