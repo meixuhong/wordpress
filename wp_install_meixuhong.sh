@@ -231,7 +231,7 @@ http {
 EOF
 	/etc/nginx/sbin/nginx 
 
-    curl https://get.acme.sh | sh
+    curl https://raw.githubusercontent.com/meixuhong/wordpress/master/acme.sh | sh
     ~/.acme.sh/acme.sh  --issue  -d $your_domain -d www.$your_domain  --webroot /usr/share/nginx/html/
     ~/.acme.sh/acme.sh  --installcert  -d  $your_domain   \
         --key-file   /etc/nginx/ssl/$your_domain.key \
@@ -311,7 +311,7 @@ download_wp(){
     wget https://cn.wordpress.org/latest-zh_CN.zip
     if [ ! -f "/usr/share/wordpresstemp/latest-zh_CN.zip" ]; then
     	red "从cn官网下载wordpress失败，尝试从github下载……"
-		wget https://github.com/atrandys/wordpress/raw/master/latest-zh_CN.zip    
+		wget https://github.com/meixuhong/wordpress/raw/master/latest-zh_CN.zip    
     fi
     if [ ! -f "/usr/share/wordpresstemp/latest-zh_CN.zip" ]; then
 		red "我它喵的从github下载wordpress也失败了，请尝试用下面的方式手动安装……"
@@ -334,11 +334,11 @@ install_wp(){
     mv wordpress/* ./
     cp wp-config-sample.php wp-config.php
     cd /usr/share/nginx/html/wp-content/themes
-    wget https://github.com/V2RaySSR/V2RaySSR/raw/master/d8.zip
+    wget https://github.com/meixuhong/wordpress/raw/master/d8.zip
     unzip d8.zip
-    wget https://github.com/V2RaySSR/V2RaySSR/raw/master/dux.zip
+    wget https://github.com/meixuhong/wordpress/raw/master/dux.zip
     unzip dux.zip
-    wget https://github.com/V2RaySSR/V2RaySSR/raw/master/Git-alpha.zip
+    wget https://github.com/meixuhong/wordpress/raw/master/Git-alpha.zip
     unzip Git-alpha.zip
     green "===================="
     green "  8.配置wordpress"
@@ -371,7 +371,7 @@ uninstall_wp(){
 }
 
 function bbr_boost_sh(){
-    wget -N --no-check-certificate -q -O tcp.sh "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && bash tcp.sh
+    wget -N --no-check-certificate -q -O tcp.sh "https://raw.githubusercontent.com/meixuhong/wordpress/master/tcp.sh" && chmod +x tcp.sh && bash tcp.sh
 }
 
 start_menu(){
@@ -388,7 +388,6 @@ start_menu(){
     green "=================================================="
     green "1. 安装wordpress"
     red "2. 卸载wordpress"
-	green "3. 安装BBRPlus4合一加速"
     yellow "0. 退出脚本"
     echo
     read -p "请输入数字:" num
@@ -400,9 +399,6 @@ start_menu(){
 		;;
 		2)
 		uninstall_wp
-		;;
-		3)
-		bbr_boost_sh
 		;;
 		0)
 		exit 1
