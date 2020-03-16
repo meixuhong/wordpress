@@ -280,13 +280,20 @@ server {
 }
 EOF
 
-cat > /etc/init.d/nginx <<-EOF
-#!/bin/sh
-#chkconfig: 2345 80 90
-#description:auto_run
+cat > /usr/lib/systemd/system/nginx.service <<-EOF
+[Unit]
+Description=nginx
+After=network.target
 
-nginx="/etc/nginx/sbin/nginx"
-NGINX_CONF_FILE="/etc/nginx/conf/nginx.conf"
+[Service]
+Type=forking
+ExecStart=/etc/nginx/sbin/nginx
+ExecReload=/etc/nginx/sbin/nginx -s reload
+ExecStop=/etc/nginx/sbin/nginx -s quit
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
     newpath=$(cat /dev/urandom | head -1 | md5sum | head -c 4)
@@ -295,10 +302,7 @@ EOF
     /etc/nginx/sbin/nginx 
 	
     green " 设置Ngnix开机自动启动"
-    chmod a+x /etc/init.d/nginx
-    chkconfig --add /etc/init.d/nginx
-    chkconfig nginx on
-    green " 成功设置Ngnix开机自动启动了!"
+    systemctl enable nginx.service
     green "==========================================================="
 }
 
