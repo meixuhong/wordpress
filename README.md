@@ -22,3 +22,9 @@ acme.sh的SSL证书申请为多域名适配，请输入绑定并解析的顶级�
 > - D85.1
 > - DUX6.0
 > - Git
+
+使用：
+
+```shell
+yum install -y wget && wget https://raw.githubusercontent.com/meixuhong/wordpress/master/wp_install_meixuhong.sh&& chmod +x wp_install_meixuhong.sh && ./wp_install_meixuhong.sh
+```
